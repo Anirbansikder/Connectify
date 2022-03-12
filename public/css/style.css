@@ -450,6 +450,7 @@ body {
   box-shadow: 0px 2px 42px 10px rgba(47, 226, 75, 0.15);
   border-radius: 15px;
   transition: 0.5s;
+  cursor : pointer;
 }
 
 .dialog_reject_call_button {
@@ -459,6 +460,7 @@ body {
   box-shadow: 0px 2px 42px 10px rgba(255, 59, 59, 0.15);
   border-radius: 15px;
   transition: 0.5s;
+  cursor : pointer;
 }
 
 .dialog_button_image {

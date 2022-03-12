@@ -5,11 +5,18 @@ import * as ui from './ui.js';
 let connectedUserDetails;
 
 export const sendPreOffer = (callType,calleePersonalCode) => {
-    const data = {
+    connectedUserDetails = {
         callType,
-        calleePersonalCode
+        socketId : calleePersonalCode
     }
-    wss.sendPreOffer(data);
+    if(callType === constants.callType.CHAT_PERSONAL_CODE || callType === constants===constants.callType.VIDEO_PERSONAL_CODE){
+        const data = {
+            callType,
+            calleePersonalCode
+        }
+        ui.showCallingDialog(callingDialogRejectHandler);
+        wss.sendPreOffer(data);
+    }
 }
 
 export const handlePreOffer = (data) => {
@@ -29,4 +36,8 @@ const acceptCallHandler = () => {
 
 const rejectCallHandler = () => {
     console.log("call rejected");
+}
+
+const callingDialogRejectHandler = () => {
+    console.log("Dhur bara abar rejection");
 }
