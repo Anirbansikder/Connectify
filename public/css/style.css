@@ -113,8 +113,19 @@ body {
 }
 
 .personal_code_value_paragraph {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.copy_message_container{
+  position: fixed;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.7);
+  z-index: 100;
+  border-radius: 20px;
+  padding: 15px;
 }
 
 .personal_code_copy_button {
@@ -123,6 +134,7 @@ body {
   border-radius: 8px;
   background: white;
   transition: 0.5s;
+  cursor: pointer;
 }
 
 .personal_code_connecting_container {
