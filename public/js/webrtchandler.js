@@ -9,7 +9,7 @@ export const sendPreOffer = (callType,calleePersonalCode) => {
         callType,
         socketId : calleePersonalCode
     }
-    if(callType === constants.callType.CHAT_PERSONAL_CODE || callType === constants===constants.callType.VIDEO_PERSONAL_CODE){
+    if(callType === constants.callType.CHAT_PERSONAL_CODE || callType === constants.callType.VIDEO_PERSONAL_CODE){
         const data = {
             callType,
             calleePersonalCode
@@ -32,12 +32,46 @@ export const handlePreOffer = (data) => {
 
 const acceptCallHandler = () => {
     console.log("call accepted");
+    sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
+    ui.showCallElements(connectedUserDetails.callType);
 }
 
 const rejectCallHandler = () => {
     console.log("call rejected");
+    sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 }
 
 const callingDialogRejectHandler = () => {
     console.log("Dhur bara abar rejection");
+}
+
+const sendPreOfferAnswer = (preOfferAnswer) => {
+    const data = {
+        callerSocketId : connectedUserDetails.socketId,
+        preOfferAnswer
+    }
+    ui.removeAllDialogs();
+    wss.sendPreOfferAnswer(data);
+}
+
+export const handlePreOfferAnswer = (data) => {
+    const { preOfferAnswer } = data;
+    console.log(data);
+    ui.removeAllDialogs();
+    if(preOfferAnswer === constants.preOfferAnswer.CALLEE_NOT_FOUND){
+        ui.showInfoDialog(preOfferAnswer);
+        // show dialog that callee has not been found
+    }
+    if(preOfferAnswer === constants.preOfferAnswer.CALL_REJECTED){
+        ui.showInfoDialog(preOfferAnswer);
+        // show dialog callee is not able to connect
+    }
+    if(preOfferAnswer === constants.preOfferAnswer.CALL_REJECTED){
+        ui.showInfoDialog(preOfferAnswer);
+        // show dialog that call is rejected by callee
+    }
+    if(preOfferAnswer === constants.preOfferAnswer.CALL_ACCEPTED){
+        ui.showCallElements(connectedUserDetails.callType);
+;        // send webrtc offer
+    }
 }
