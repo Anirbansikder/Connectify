@@ -29,8 +29,26 @@ io.on('connection',(socket) => {
                 callType,
             }
             io.to(connectedPeer).emit("pre-offer",newData);
+        } else {
+            const data = {
+                preOfferAnswer : "CALLEE_NOT_FOUND",
+            }
+            io.to(socket.id).emit('pre-offer-answer',data);
         }
     })
+
+    socket.on('pre-offer-answer' , (data) => {
+
+        const { callerSocketId } = data;
+        const connectedPeer = connectedPeers.find(peerSocketId => 
+            peerSocketId === callerSocketId
+        )
+
+        if(connectedPeer){
+            io.to(data.callerSocketId).emit('pre-offer-answer',data);
+        }
+    })
+
     socket.on('disconnect' , () => {
         const newConnectedPeers = connectedPeers.filter((peerSocketId) => {
             return peerSocketId !== socket.id;
