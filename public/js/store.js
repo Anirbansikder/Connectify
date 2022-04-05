@@ -18,7 +18,7 @@ export const setSocketId = (socketId) => {
 export const setLocalStream = (stream) => {
     state = {
         ...state,
-        setLocalStream : stream
+        localStream : stream
     }
 }
 
