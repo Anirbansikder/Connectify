@@ -67,6 +67,32 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on('user-hanged-up' , data => {
+    const {connectedUserSocketId} = data;
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === connectedUserSocketId
+    );
+    if(connectedPeer){
+      io.to(connectedUserSocketId).emit("user-hanged-up");
+    }
+  })
+
+  socket.on("get-stranger-socket-id" , () => {
+    let randomStrangerSocketId;
+    const filteredConnectedPeersStrangers = connectedPeers.filter(peerSocketId => peerSocketId !== socket.id)
+    if(filteredConnectedPeersStrangers.length > 0){
+      randomStrangerSocketId = filteredConnectedPeersStrangers[
+        Math.floor(Math.random() * filteredConnectedPeersStrangers.length)
+      ]
+    } else {
+      randomStrangerSocketId = null;
+    }
+    const data = {
+      randomStrangerSocketId
+    }
+    io.to(socket.id).emit("stranger-socket-id",data);
+  })
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
 
